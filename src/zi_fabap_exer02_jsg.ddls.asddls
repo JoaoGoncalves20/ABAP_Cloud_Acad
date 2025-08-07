@@ -1,0 +1,24 @@
+@AbapCatalog.viewEnhancementCategory: [#NONE]
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'Exercício 2 CDS'
+@Metadata.ignorePropagatedAnnotations: true
+@ObjectModel.usageType:{
+    serviceQuality: #X,
+    sizeCategory: #S,
+    dataClass: #MIXED
+}
+define view entity ZI_FABAP_EXER02_JSG as select from /dmo/connection as Connection
+    inner join   /dmo/carrier    as Carrier
+                                 on Carrier.carrier_id = Connection.carrier_id
+
+{
+
+  key Carrier.carrier_id                         as CarrierId,
+      Carrier.name                               as CarrierName,
+      count( distinct Connection.connection_id ) as ConnectionCount,
+      max( Connection.distance )                 as MaxDistance
+
+}
+group by
+  Carrier.carrier_id,
+  Carrier.name

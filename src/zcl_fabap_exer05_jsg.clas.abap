@@ -1,0 +1,32 @@
+CLASS zcl_fabap_exer05_jsg DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+
+    INTERFACES if_amdp_marker_hdb.
+
+    TYPES gty_conn TYPE STANDARD TABLE OF zi_fabap_exer5_jsg.
+
+    CLASS-METHODS get_data
+        FOR TABLE FUNCTION zi_fabap_exer5_jsg .
+
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+ENDCLASS.
+
+
+
+CLASS ZCL_FABAP_EXER05_JSG IMPLEMENTATION.
+
+
+  METHOD get_data BY DATABASE FUNCTION
+   FOR HDB LANGUAGE SQLSCRIPT
+   USING /DMO/BOOKING.
+
+    RETURN select * from "/DMO/BOOKING"
+    WHERE client = session_context('CLIENT');
+
+  ENDMETHOD.
+ENDCLASS.
